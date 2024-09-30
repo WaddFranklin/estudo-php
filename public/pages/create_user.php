@@ -1,3 +1,4 @@
+<?= get('message') ?>
 <h2>Cadastro de Usuário</h2>
 
 <form action="/pages/form/create_user.php" method="post">
@@ -22,4 +23,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <a href="/" class="btn btn-secondary">Voltar</a>
 </form>
