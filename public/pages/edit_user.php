@@ -4,7 +4,7 @@
 <h2>Editar Usuário</h2>
 
 <form action="/pages/form/update_user.php" method="post">
-    <input type="hidden" name="id_user" value="<?= $user->id_user ?>">
+    <input type="hidden" name="id" value="<?= $user->id_user ?>">
 
     <div class="form-group">
         <label for="name">Nome</label>

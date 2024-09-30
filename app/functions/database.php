@@ -11,7 +11,7 @@ function connect() {
 function create($table, $fields) {
     $pdo = connect();
 
-    if ($fields) {
+    if (!is_array($fields)) {
         $fields = (array) $fields;
     }
 
@@ -24,8 +24,22 @@ function create($table, $fields) {
     return $insert->execute($fields);
 }
 
-function update() {
-    
+function update($table, $fields, $where) {
+    if (!is_array($fields)) {
+        $fields = (array) $fields;
+    }
+
+    $pdo = connect();
+
+    $fields = array_map(function ($field){
+        return "{$field} = :{$field}";
+    }, array_keys($fields));
+
+    $sql = "UPDATE {$table} SET ";
+    $sql .= implode(',', $fields) . ")";
+    $sql .= "WHERE {$where[0]} = :{$where[0]}";
+
+    dd($where);
 }
 
 function all($table) {
