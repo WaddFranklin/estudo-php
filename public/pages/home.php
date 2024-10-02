@@ -1,6 +1,6 @@
 <a href="/?pages=create_user" class="btn btn-primary">Cadastrar Usuário</a>
+<a href="/?pages=contato" class="btn btn-primary">Contato</a>
 <h2>Página Inicial</h2>
-<a href="/?pages=contato">Contato</a>
 
 <table class="table table-striped table-hover">
     <thead>

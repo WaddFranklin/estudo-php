@@ -1,7 +1,7 @@
 <?php
 
 function connect() {
-    $pdo = new \PDO("mysql:host=localhost;dbname=estudos;charset-utf8", 'root', 'root');
+    $pdo = new \PDO("mysql:host=localhost;dbname=ESTUDOS;charset-utf8", 'root', 'root');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
@@ -31,15 +31,22 @@ function update($table, $fields, $where) {
 
     $pdo = connect();
 
-    $fields = array_map(function ($field){
+    $data = array_map(function ($field){
         return "{$field} = :{$field}";
     }, array_keys($fields));
 
     $sql = "UPDATE {$table} SET ";
-    $sql .= implode(',', $fields) . ")";
-    $sql .= "WHERE {$where[0]} = :{$where[0]}";
+    $sql .= implode(',', $data);
+    $sql .= " WHERE {$where[0]} = :{$where[0]}";
+    
+    
+    $data = array_merge($fields, [$where[0] => $where[1]]);
+    
+    // dd($data);
+    $update = $pdo->prepare($sql);
+    $update->execute($data);
 
-    dd($where);
+    return $update->rowCount();
 }
 
 function all($table) {
