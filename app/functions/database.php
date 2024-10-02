@@ -25,11 +25,11 @@ function create($table, $fields) {
 }
 
 function update($table, $fields, $where) {
+    $pdo = connect();
+
     if (!is_array($fields)) {
         $fields = (array) $fields;
     }
-
-    $pdo = connect();
 
     $data = array_map(function ($field){
         return "{$field} = :{$field}";
@@ -39,10 +39,8 @@ function update($table, $fields, $where) {
     $sql .= implode(',', $data);
     $sql .= " WHERE {$where[0]} = :{$where[0]}";
     
-    
     $data = array_merge($fields, [$where[0] => $where[1]]);
     
-    // dd($data);
     $update = $pdo->prepare($sql);
     $update->execute($data);
 
@@ -73,6 +71,12 @@ function find($table, $field, $value) {
     return $find->fetch();
 }
 
-function delete() {
+function delete($table, $field, $value) {
+    $pdo = connect();
+    $sql = "DELETE FROM {$table} WHERE {$field} = :{$field}";
 
+    $delete = $pdo->prepare($sql);
+    $delete->bindValue($field, $value);
+    
+    return $delete->execute();
 }
